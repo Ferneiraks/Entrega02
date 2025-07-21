@@ -1,0 +1,54 @@
+---
+title: "Análisis de Fondos Mutuos - CMF Chile"
+output:
+  pdf_document:
+    latex_engine: xelatex
+    toc: true
+    number_sections: true
+lang: es
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+library(ggplot2)
+library(dplyr)
+library(scales)
+library(lubridate)
+library(knitr)  # Necesario para kable
+```
+
+# Introducción
+
+Este reporte presenta un análisis automatizado de los fondos mutuos chilenos utilizando datos descargados desde la CMF. Incluye visualizaciones y un resumen ejecutivo de los principales fondos.
+
+# Rentabilidades y Riesgo
+
+```{r}
+head(datos_procesados)
+```
+
+Gráfico de rentabilidades:
+
+```{r}
+# Asegura que no se usen parámetros incorrectos como linewidth en annotate o geom_text
+plot_rentabilidad <- graficos_data$grafico_rentabilidad +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 10)) +
+  annotate("text", x = 1, y = 0.92, label = "TPM = 0.42%", size = 4)
+
+plot_rentabilidad
+```
+
+# Ranking CAPM
+
+```{r}
+kable(rankings_data, digits = 3, caption = "Ranking CAPM por Fondo")
+```
+
+# Conclusiones
+
+- Los fondos con mejor alpha ajustada por beta se destacan en el top del ranking CAPM.
+- Se observa una concentración de rentabilidades superiores en fondos con mayor exposición a renta variable.
+
+---
+
+_Reporte generado automáticamente con R y RMarkdown el `r Sys.Date()`_.
